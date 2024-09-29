@@ -11,6 +11,16 @@ export const insertStudents = (students) => {
     });
 };
 
+export const insertUsers = (Users) => {
+    return new Promise((resolve, reject) => {
+        const query = `INSERT INTO Users (UID, email, password_hash, name) VALUES ?`;
+        pool.query(query, [students], (error, results) => {
+            if (error) return reject(error);
+            resolve(results);
+        });
+    });
+};
+
 // Function to insert multiple subjects
 export const insertSubjects = (subjects) => {
     return new Promise((resolve, reject) => {

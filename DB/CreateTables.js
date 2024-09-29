@@ -1,5 +1,26 @@
 import { pool } from './Configuration.js';
 
+export const createTableUsers = () => {
+  return new Promise((resolve, reject) => {
+    pool.query(`CREATE TABLE users (
+                  id SERIAL PRIMARY KEY,                   
+                  uid BIGINT NOT NULL UNIQUE,     
+                  email VARCHAR(255) NOT NULL UNIQUE,     
+                  password_hash VARCHAR(255) NOT NULL,    
+                  name VARCHAR(255) NOT NULL,             
+                  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+                  updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+                  );`,
+      (error, results) => {
+      if (error) return reject(error);
+      resolve(results);
+    });
+  });
+}
+
+
+
+
 export const createTableStudents = () => {
     return new Promise((resolve, reject) => {
       pool.query(`CREATE TABLE Students
