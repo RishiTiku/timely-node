@@ -3,14 +3,11 @@ import { pool } from './Configuration.js';
 export const createTableUsers = () => {
   return new Promise((resolve, reject) => {
     pool.query(`CREATE TABLE users (
-                  id SERIAL PRIMARY KEY,                   
-                  uid BIGINT NOT NULL UNIQUE,     
-                  email VARCHAR(255) NOT NULL UNIQUE,     
-                  password_hash VARCHAR(255) NOT NULL,    
-                  name VARCHAR(255) NOT NULL,             
-                  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-                  updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
-                  );`,
+                id INT AUTO_INCREMENT PRIMARY KEY,
+                email VARCHAR(255) NOT NULL UNIQUE,
+                password VARCHAR(255) NOT NULL,
+                created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+                );`,
       (error, results) => {
       if (error) return reject(error);
       resolve(results);
@@ -18,7 +15,37 @@ export const createTableUsers = () => {
   });
 }
 
+export const createTableUserTokens = () => {
+  return new Promise((resolve, reject) => {
+    pool.query(`CREATE TABLE user_tokens (
+                  user_id INT NOT NULL,
+                  access_token VARCHAR(512) NOT NULL,
+                  refresh_token VARCHAR(512) NOT NULL,
+                  access_token_expires TIMESTAMP NOT NULL,
+                  refresh_token_expires TIMESTAMP NOT NULL,
+                  FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
+                );`,
+      (error, results) => {
+      if (error) return reject(error);
+      resolve(results);
+    });
+  });
+}
 
+export const createTableUserData = () => {
+  return new Promise((resolve, reject) => {
+    pool.query(`CREATE TABLE user_data (
+                  id INT NOT NULL,
+                  college_uid BIGINT,
+                  name VARCHAR(255),
+                  FOREIGN KEY (id) REFERENCES users(id) ON DELETE CASCADE
+              );`,
+      (error, results) => {
+      if (error) return reject(error);
+      resolve(results);
+    });
+  });
+}
 
 
 export const createTableStudents = () => {

@@ -2,7 +2,7 @@ import { closePool } from './DB/Configuration.js';
 import { createTables }  from './DB/CreateTables.js';
 import { dropAllTables } from './DB/DeleteTables.js';
 import { addSampleData } from './DB/InsertSampleData.js';
-import { getWeeklyTimetable } from './DB/Queries.js';
+import { getWeeklyTimetable } from './DB/ReadQueries.js';
 import { router } from './Routes/Auth.route.js';
 
 import express from 'express';
@@ -13,6 +13,8 @@ import { config } from 'dotenv'
 
 const app = express();
 app.use(morgan('dev'));
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }))
 
 const PORT = process.env.PORT || 3000;
 
