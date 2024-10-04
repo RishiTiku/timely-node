@@ -1,13 +1,16 @@
 GET http://localhost:3000/
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpYXQiOjE3Mjc5ODc2NzQsImV4cCI6MTcyNzk5MTI3NCwiYXVkIjoiMzIiLCJpc3MiOiJub2RlLXRpbWVseSJ9.1jNNcr2AMvLgWDB6bzC-X2kalLVhZDsz-QSK0OIkxI0
 
 ###
 GET http://localhost:3000/hello_world
 
 ### Login Route
 POST http://localhost:3000/auth/login
+Content-Type: application/json
 
 {
-    name: "hekllo"
+    "email" : "123@gmail.com",
+    "password": "123"
 }
 
 ### Register Route
@@ -15,14 +18,16 @@ POST http://localhost:3000/auth/register
 Content-Type: application/json
 
 {
-    name: "hekllo"
+    "email" : "123@gmail.com",
+    "password": "123"
 }
 
 ### Refresh Token Route
 POST http://localhost:3000/auth/refresh-token
+Content-Type: application/json
 
 {
-    name: "hekllo"
+    "refreshToken" : "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpYXQiOjE3Mjc5ODk4NTEsImV4cCI6MTc1OTU0NzQ1MSwiYXVkIjoiMzUiLCJpc3MiOiJub2RlLXRpbWVseSJ9.W1-1XhSj0hpBZhuSTiGtzsIH-AmF84VEgdPTm3i8IXU"
 }
 
 ### Logout Route

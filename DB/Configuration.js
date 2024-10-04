@@ -1,4 +1,8 @@
-import { createPool } from "mysql";
+import { createPool } from "mysql2/promise";
+import dotenv from 'dotenv/config';
+
+// // dotenv.config({ path: '../.env' });
+// console.log(process.env)
 
 // Create a connection pool
 export const pool = createPool({
@@ -6,7 +10,7 @@ export const pool = createPool({
     host: '127.0.0.1',
     user: 'timekeeper1',
     password: '',
-    database: 'timelydatabase'
+    database: process.env.DB_NAME
 });
 
 // Function to close the pool

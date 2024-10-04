@@ -9,7 +9,10 @@ import express from 'express';
 import morgan from 'morgan';
 import createError from 'http-errors';
 import { config } from 'dotenv'
-
+import { dropAllTables1 } from './DB/DEF.js';
+import { registerUser } from './DB/UserOperations.js';
+import { verifyAccessToken } from './utils/jwt_helper.js';
+import client from './utils/init_redis.js';
 
 const app = express();
 app.use(morgan('dev'));
@@ -22,7 +25,8 @@ app.listen(PORT, () => {
     console.log(`App running on http://127.0.0.1:${PORT}`);
 })
 
-app.get("/", async (req, res, next) => {
+app.get("/", verifyAccessToken, async (req, res, next) => {
+    console.log(req.headers['authorization']);
     res.send('Hello from express.');
 })
 
@@ -44,25 +48,30 @@ app.use((err, req, res, next) => {
 
 async function interact(){
     try{
-        await dropAllTables();
-        await createTables();
-        await addSampleData();
-        await getWeeklyTimetable(2021700067)
-            .then(timetable => {
-                console.log("Weekly Timetable: ", timetable);
-            })
-            .catch(error => {
-                console.error('Error retrieving timetable:', error);
-            });
+        // await dropAllTables();
+        // await createTables();
+        // var a = await bcrypt.hash(', 10)
+        // console.log(a)
+        // await registerUser("abcde", "1234")
+            // .then();
+        // await addSampleData();
+        // await getWeeklyTimetable(2021700067)
+        //     .then(timetable => {
+        //         console.log("Weekly Timetable: ", timetable);
+        //     })
+        //     .catch(error => {
+        //         console.error('Error retrieving timetable:', error);
+        //     });
     }
     catch (error) {
         console.error('Error: ', error);
-    } finally{
-        closePool();
     }
+    // } finally{
+    //     closePool();
+    // }
 }
 
-//interact();
+interact();
 
 process.on('SIGINT', async () => {
     console.log('Closing database connection pool...');

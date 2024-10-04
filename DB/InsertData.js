@@ -11,15 +11,11 @@ export const insertStudents = (students) => {
     });
 };
 
-export const insertUsers = (Users) => {
-    return new Promise((resolve, reject) => {
-        const query = `INSERT INTO Users (UID, email, password_hash, name) VALUES ?`;
-        pool.query(query, [students], (error, results) => {
-            if (error) return reject(error);
-            resolve(results);
-        });
-    });
+export const insertUsers = async (email, password) => {
+    const query = `INSERT INTO users (email, password) VALUES (?, ?)`;
+    return await pool.query(query, [email, password]); // Assuming pool.query returns a promise
 };
+
 
 // Function to insert multiple subjects
 export const insertSubjects = (subjects) => {

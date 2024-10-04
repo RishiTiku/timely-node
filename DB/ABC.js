@@ -59,9 +59,9 @@ export const createTableUserData = () => {
 export const createTableSubjects = () => {
   return new Promise((resolve, reject) => {
     pool.query(
-      `CREATE TABLE IF NOT EXISTS subjects (
-        subject_id INT PRIMARY KEY,
-        subject_name VARCHAR(255) NOT NULL
+      `CREATE TABLE IF NOT EXISTS Subjects (
+        SubjectID INT PRIMARY KEY,
+        SubjectName VARCHAR(255) NOT NULL
       );`
     , (error, results) => {
       if (error) return reject(error);
@@ -74,12 +74,12 @@ export const createTableSubjects = () => {
 export const createTableLabBatches = () => {
   return new Promise((resolve, reject) => {
     pool.query(
-      `CREATE TABLE IF NOT EXISTS lab_batches (
-        subject_id INT NOT NULL,
-        batch_id INT NOT NULL DEFAULT 0,
-        batch_name VARCHAR(255) DEFAULT NULL,
-        PRIMARY KEY (subject_id, batch_id),
-        FOREIGN KEY (subject_id) REFERENCES subjects(subject_id) ON DELETE CASCADE
+      `CREATE TABLE IF NOT EXISTS LabBatches (
+        SubjectID INT NOT NULL,
+        BatchID INT NOT NULL DEFAULT 0,
+        BatchName VARCHAR(255) DEFAULT NULL,
+        PRIMARY KEY (SubjectID, BatchID),
+        FOREIGN KEY (SubjectID) REFERENCES Subjects(SubjectID) ON DELETE CASCADE
       );`
     , (error, results) => {
       if (error) return reject(error);
@@ -92,12 +92,12 @@ export const createTableLabBatches = () => {
 export const createTableLectureBatches = () => {
   return new Promise((resolve, reject) => {
     pool.query(
-      `CREATE TABLE IF NOT EXISTS lecture_batches (
-        subject_id INT NOT NULL,
-        batch_id INT NOT NULL DEFAULT 0,
-        batch_name VARCHAR(255) DEFAULT NULL,
-        PRIMARY KEY (subject_id, batch_id),
-        FOREIGN KEY (subject_id) REFERENCES subjects(subject_id) ON DELETE CASCADE
+      `CREATE TABLE IF NOT EXISTS LectureBatches (
+        SubjectID INT NOT NULL,
+        BatchID INT NOT NULL DEFAULT 0,
+        BatchName VARCHAR(255) DEFAULT NULL,
+        PRIMARY KEY (SubjectID, BatchID),
+        FOREIGN KEY (SubjectID) REFERENCES Subjects(SubjectID) ON DELETE CASCADE
       );`
     , (error, results) => {
       if (error) return reject(error);
@@ -110,13 +110,13 @@ export const createTableLectureBatches = () => {
 export const createTableStudentsSubjects = () => {
   return new Promise((resolve, reject) => {
     pool.query(
-      `CREATE TABLE IF NOT EXISTS students_subjects (
-        uid BIGINT NOT NULL,
-        subject_id INT NOT NULL,
-        lecture_batch_id INT DEFAULT 0,
-        lab_batch_id INT NOT NULL DEFAULT 0,
-        PRIMARY KEY (uid, subject_id),
-        FOREIGN KEY (subject_id, lab_batch_id) REFERENCES lab_batches(subject_id, batch_id) ON DELETE CASCADE
+      `CREATE TABLE IF NOT EXISTS Students_Subjects (
+        UID BIGINT NOT NULL,
+        SubjectID INT NOT NULL,
+        LectureBatchID INT DEFAULT 0,
+        LabBatchID INT NOT NULL DEFAULT 0,
+        PRIMARY KEY (UID, SubjectID),
+        FOREIGN KEY (SubjectID, LabBatchID) REFERENCES LabBatches(SubjectID, BatchID) ON DELETE CASCADE
       );`
     , (error, results) => {
       if (error) return reject(error);
@@ -129,17 +129,17 @@ export const createTableStudentsSubjects = () => {
 export const createTableTimetable = () => {
   return new Promise((resolve, reject) => {
     pool.query(
-      `CREATE TABLE IF NOT EXISTS timetable (
-        timetable_id INT AUTO_INCREMENT PRIMARY KEY,
-        start_time TIME NOT NULL,
-        end_time TIME NOT NULL,
-        day ENUM('Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday') NOT NULL,
-        subject_id INT NOT NULL,
-        lecture_batch_id INT DEFAULT NULL,
-        lab_batch_id INT DEFAULT NULL,
-        room_number VARCHAR(255),
-        UNIQUE (start_time, end_time, day, subject_id, lab_batch_id),
-        FOREIGN KEY (subject_id, lab_batch_id) REFERENCES lab_batches(subject_id, batch_id) ON DELETE CASCADE
+      `CREATE TABLE IF NOT EXISTS Timetable (
+        TimetableID INT AUTO_INCREMENT PRIMARY KEY,
+        StartTime TIME NOT NULL,
+        EndTime TIME NOT NULL,
+        Day ENUM('Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday') NOT NULL,
+        SubjectID INT NOT NULL,
+        LectureBatchID INT DEFAULT NULL,
+        LabBatchID INT DEFAULT NULL,
+        RoomNumber VARCHAR(255),
+        UNIQUE (StartTime, EndTime, Day, SubjectID, LabBatchID),
+        FOREIGN KEY (SubjectID, LabBatchID) REFERENCES LabBatches(SubjectID, BatchID) ON DELETE CASCADE
       );`
     , (error, results) => {
       if (error) return reject(error);
@@ -152,16 +152,16 @@ export const createTableTimetable = () => {
 export const createTableTimetableExceptions = () => {
   return new Promise((resolve, reject) => {
     pool.query(
-      `CREATE TABLE IF NOT EXISTS timetable_exceptions (
-        exception_id INT AUTO_INCREMENT PRIMARY KEY,
-        date DATE NOT NULL,
-        timetable_id INT NOT NULL,
-        new_date DATE,
-        new_start_time TIME,
-        new_end_time TIME,
-        reason VARCHAR(255),
-        UNIQUE (date, timetable_id),
-        FOREIGN KEY (timetable_id) REFERENCES timetable(timetable_id)
+      `CREATE TABLE IF NOT EXISTS TimetableExceptions (
+        ExceptionID INT AUTO_INCREMENT PRIMARY KEY,
+        Date DATE NOT NULL,
+        TimetableID INT NOT NULL,
+        NewDate DATE,
+        NewStartTime TIME,
+        NewEndTime TIME,
+        Reason VARCHAR(255),
+        UNIQUE (Date, TimetableID),
+        FOREIGN KEY (TimetableID) REFERENCES Timetable(TimetableID)
       );`
     , (error, results) => {
       if (error) return reject(error);
@@ -170,20 +170,20 @@ export const createTableTimetableExceptions = () => {
   });
 };
 
-// Function to create the special_timetable table
+// Function to create the special timetable table
 export const createTableSpecialTimetable = () => {
   return new Promise((resolve, reject) => {
     pool.query(
-      `CREATE TABLE IF NOT EXISTS special_timetable (
-        special_timetable_id INT AUTO_INCREMENT PRIMARY KEY,
-        date DATE NOT NULL,
-        start_time TIME NOT NULL,
-        end_time TIME NOT NULL,
-        subject_id INT NOT NULL,
-        lecture_batch_id INT NOT NULL DEFAULT 0,
-        lab_batch_id INT NOT NULL DEFAULT 0,
-        room_number VARCHAR(255),
-        reason VARCHAR(255)
+      `CREATE TABLE IF NOT EXISTS SpecialTimetable (
+        SpecialTimetableID INT AUTO_INCREMENT PRIMARY KEY,
+        Date DATE NOT NULL,
+        StartTime TIME NOT NULL,
+        EndTime TIME NOT NULL,
+        SubjectID INT NOT NULL,
+        LectureBatchID INT NOT NULL DEFAULT 0,
+        LabBatchID INT NOT NULL DEFAULT 0,
+        RoomNumber VARCHAR(255),
+        Reason VARCHAR(255)
       );`
     , (error, results) => {
       if (error) return reject(error);
@@ -196,15 +196,15 @@ export const createTableSpecialTimetable = () => {
 export const createTableHolidays = () => {
   return new Promise((resolve, reject) => {
     pool.query(
-      `CREATE TABLE IF NOT EXISTS holidays (
-        holiday_id INT AUTO_INCREMENT PRIMARY KEY,
-        date DATE NOT NULL UNIQUE,
-        start_time TIME DEFAULT '00:00:00',
-        end_time TIME DEFAULT '23:59:59',
-        affects_sem INT DEFAULT 0,
-        affects_div INT DEFAULT 0,
-        reason VARCHAR(255),
-        UNIQUE (date, start_time, end_time)
+      `CREATE TABLE IF NOT EXISTS Holidays (
+        HolidayID INT AUTO_INCREMENT PRIMARY KEY,
+        Date DATE NOT NULL UNIQUE,
+        StartTime TIME DEFAULT '00:00:00',
+        EndTime TIME DEFAULT '23:59:59',
+        Affects_sem INT DEFAULT 0,
+        Affects_div INT DEFAULT 0,
+        Reason VARCHAR(255),
+        UNIQUE (Date, StartTime, EndTime)
       );`
     , (error, results) => {
       if (error) return reject(error);
@@ -213,8 +213,9 @@ export const createTableHolidays = () => {
   });
 };
 
+  
 // Adjusted createTables function to handle dependencies properly
-export async function createTables() {
+export async function createTables1() {
   try {
     await createTableUsers();              // No dependencies
     await createTableUserTokens();         // Depends on Users

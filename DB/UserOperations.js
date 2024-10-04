@@ -1,21 +1,61 @@
-import { pool } from './Configuration';
-import { bcrypt } from 'bcrypt';
+import { pool } from './Configuration.js';
+import bcrypt from "bcrypt";
+import createHttpError from 'http-errors';
+import { insertUsers } from './InsertData.js';
+
 
 export const checkEmailQuery = 'SELECT * FROM users WHERE email = ?';
-export const insertUserQuery = 'INSERT INTO users (email, password) VALUES (?, ?)';
 
-const registerUser = async (email, password) => {
-    // Check if email already exists
+export const findUser = async (email) => {
     const [rows] = await pool.query(checkEmailQuery, [email]);
     if (rows.length > 0) {
-        throw createHttpError.Conflict(`"${email}" is already registered.`);
+        return rows[0];
     }
+    return false;
+}
 
-    // Hash the password
-    const hashedPassword = await bcrypt.hash(password, 10);
+// export const insertUserQuery = 'INSERT INTO users (email, password) VALUES (?, ?)';
 
-    // Insert new user into the database
-    await pool.query(insertUserQuery, [email, hashedPassword]);
+export const registerUser = async (email, password) => {
+    try {
+        // // Check if email already exists
+        // const [rows] = await pool.query(checkEmailQuery, [email]);
+        
+        const userExists = await findUser(email);
+        if (userExists) {
+            throw createHttpError.Conflict(`${email} is already registered.`);
+        }
+        // Generate salt and hash the password
+        const salt = await bcrypt.genSalt(10);
 
-    return 'User registered successfully';
+        const hashedPassword = await bcrypt.hash(password, salt);
+        console.log(hashedPassword);
+        await insertUsers(email, hashedPassword);
+        const savedUser = await findUser(email);
+        console.log('saved user', savedUser);
+        // Return the saved user tuple
+        return savedUser;
+    } catch (error) {
+        console.error('Error:', error);
+        throw error;
+    }
+};
+
+export const isValidPassword = async (email, plainPassword) => {
+    try {
+        // Find the user by email
+        const user = await findUser(email);
+
+        if (!user) {
+            throw createHttpError.NotFound("User Not Registered.");
+        }
+
+        // Compare password
+        const isValid = await bcrypt.compare(plainPassword, user.password);
+        const userID = user.id
+        return {isValid, userID};
+    } catch (error) {
+        console.error('Error during password validation:', error);
+        throw error;
+    }
 };
