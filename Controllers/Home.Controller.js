@@ -1,3 +1,4 @@
+import createHttpError from "http-errors";
 import { closePool } from "../DB/Configuration.js";
 
 const homeFunctions = {
@@ -17,7 +18,7 @@ const homeFunctions = {
     },
 
     notFoundError: async (req, res, next) => {
-        next(createError.NotFound())
+        next(createHttpError.NotFound())
     },
 
     onSigint: async () => {

@@ -2,10 +2,10 @@ GET http://localhost:3000/
 Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpYXQiOjE3MjgzMzE2MDgsImV4cCI6MTcyODMzNTIwOCwiYXVkIjoiNDciLCJpc3MiOiJub2RlLXRpbWVseSJ9.ii5fBKJDPvsKMe0UdhyaVfG6orAx3ytDckwBHTKraxk
 
 ### 404
-GET http://localhost:3000/hello_world
+GET http://13.60.180.116/hello_world
 
 ### Login Route
-POST http://localhost:3000/auth/login
+POST http://13.60.180.116/auth/login
 Content-Type: application/json
 
 {

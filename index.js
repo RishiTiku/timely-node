@@ -1,4 +1,3 @@
-import { closePool } from './DB/Configuration.js';
 import authRouter from './Routes/Auth.route.js';
 
 import express from 'express';
