@@ -1,3 +1,4 @@
+import { closePool } from "../DB/Configuration.js";
 
 const homeFunctions = {
     homeGreeting: async (req, res, next) => {
