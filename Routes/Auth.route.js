@@ -1,55 +1,15 @@
 import express from "express";
-import createHttpError from "http-errors";
-import { findUser, isValidPassword, registerUser } from "../DB/UserOperations.js";
-import { authSchema } from "../utils/validation_schema.js";
-import { signAccessToken, signRefreshToken, verifyRefreshToken } from '../utils/jwt_helper.js'
+import authFunctions from "../Controllers/Auth.Controller.js";
 
 
-export const router = express.Router();
+const router = express.Router();
 
-router.post('/register', async (req, res, next) =>{
-    try {
-        const result = await authSchema.validateAsync(req.body);
-        const user = await registerUser(result.email, result.password);
-        const accessToken = await signAccessToken(user.id);
-        const refreshToken = await signRefreshToken(user.id);
-        res.status(201).send({ accessToken, refreshToken });
-    } catch (error) {
-        if(error.isJoi === true) error.status = 422;
-        next(error)
-    }
-})
+router.post('/register', authFunctions.register)
 
-router.post('/login', async (req, res, next) =>{
-    try {
-        const result = await authSchema.validateAsync(req.body);
-        const {isValid, userID} = await isValidPassword(result.email, result.password);
-        if( !isValid ) throw createHttpError.Unauthorized('Invalid Username or Password');
-        
-        const accessToken = await signAccessToken(userID);
-        const refreshToken = await signRefreshToken(userID);
+router.post('/login', authFunctions.login)
 
-        return res.status(200).json({ accessToken, refreshToken });//({ message: 'Login successful', user: result });
-    } catch (error) {
-        if(error.isJoi === true) return next(createHttpError.BadRequest("Invalid Username or Password."));
-        next(error)
-    }
-})
+router.post('/refresh-token', authFunctions.refresh)
 
-router.post('/refresh-token', async (req, res, next) =>{
-    try {
-        const { refreshToken } = req.body;
-        if (!refreshToken) throw createHttpError.BadRequest();
-        const userID = await verifyRefreshToken(refreshToken);
-        const accessToken = await signAccessToken(userID);
-        const newRefreshToken = await signRefreshToken(userID);
-        res.send({ "accessToken": accessToken, "refreshToken":  newRefreshToken });
-        
-    } catch (error) {
-        next(error);
-    }
-})
+router.delete('/logout', authFunctions.logout);
 
-router.delete('/logout', async (req, res, next) =>{
-    res.send('Logout');
-})
+export default router;

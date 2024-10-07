@@ -1,18 +1,11 @@
 import { closePool } from './DB/Configuration.js';
-import { createTables }  from './DB/CreateTables.js';
-import { dropAllTables } from './DB/DeleteTables.js';
-import { addSampleData } from './DB/InsertSampleData.js';
-import { getWeeklyTimetable } from './DB/ReadQueries.js';
-import { router } from './Routes/Auth.route.js';
+import authRouter from './Routes/Auth.route.js';
 
 import express from 'express';
 import morgan from 'morgan';
 import createError from 'http-errors';
-import { config } from 'dotenv'
-import { dropAllTables1 } from './DB/DEF.js';
-import { registerUser } from './DB/UserOperations.js';
 import { verifyAccessToken } from './utils/jwt_helper.js';
-import client from './utils/init_redis.js';
+import homeFunctions from './Controllers/Home.Controller.js';
 
 const app = express();
 app.use(morgan('dev'));
@@ -25,26 +18,13 @@ app.listen(PORT, () => {
     console.log(`App running on http://127.0.0.1:${PORT}`);
 })
 
-app.get("/", verifyAccessToken, async (req, res, next) => {
-    console.log(req.headers['authorization']);
-    res.send('Hello from express.');
-})
+app.get("/", verifyAccessToken, homeFunctions.homeGreeting)
 
-app.use('/auth', router)
+app.use('/auth', authRouter)
 
-app.use(async (req, res, next) => {
-    next(createError.NotFound())
-})
+app.use(homeFunctions.notFoundError)
 
-app.use((err, req, res, next) => {
-    res.status(err.status || 500)
-    res.send({
-        error: {
-            status: err.status || 500,
-            message: err.message
-        }
-    })
-})
+app.use(homeFunctions.errorHandler)
 
 async function interact(){
     try{
@@ -71,11 +51,6 @@ async function interact(){
     // }
 }
 
-interact();
+// interact();
 
-process.on('SIGINT', async () => {
-    console.log('Closing database connection pool...');
-    await closePool();
-    console.log('Database connection pool closed. Exiting...');
-    process.exit(0);
-});
+process.on('SIGINT', homeFunctions.onSigint);

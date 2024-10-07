@@ -1,29 +1,33 @@
-import redis from 'redis';
+import { createClient } from '@redis/client';
 
-const client = redis.createClient(6379, "127.0.0.1");
+const client = createClient({
+    url: 'redis://127.0.0.1:6379' // Redis connection string
+});
 
 (async () => {
-    await client.connect();
+    try {
+        await client.connect(); // Connect using modern async/await
+        console.log('Client connected to Redis...');
+    } catch (err) {
+        console.error('Redis connection error:', err.message);
+    }
 })();
 
-client.on('connect', ()=> {
-    console.log('Client connected to Redis...');
+client.on('ready', () => {
+    console.log('Client connected to Redis and ready to use...');
 });
 
-client.on('ready', ()=> {
-    console.log('Client connected to Redis and Ready to use...');
+client.on('error', (err) => {
+    console.error('Redis error:', err.message);
 });
 
-client.on('error', (err)=> {
-    console.log(err.message);
-});
-
-client.on('end', ()=> {
+client.on('end', () => {
     console.log('Client disconnected from Redis');
 });
 
-process.on('SIGINT', ()=> {
-    client.quit();
+process.on('SIGINT', () => {
+    client.quit(); // Gracefully quit on interrupt signal
+    console.log('Redis client quitting...');
 });
 
 export default client;
