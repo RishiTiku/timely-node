@@ -19,8 +19,6 @@ export const findUser = async (email) => {
 export const registerUser = async (email, password) => {
     try {
         // // Check if email already exists
-        // const [rows] = await pool.query(checkEmailQuery, [email]);
-        
         const userExists = await findUser(email);
         if (userExists) {
             throw createHttpError.Conflict(`${email} is already registered.`);

@@ -42,3 +42,7 @@ Thumbs.db  # Windows
 
 # Misc
 *.log
+
+rest.http
+
+h.ttfgv

@@ -20,6 +20,9 @@
     "morgan": "^1.10.0",
     "mysql2": "^3.11.3",
     "nodemon": "^3.1.7",
-    "redis": "^4.7.0"
+    "redis": "^4.7.0",
+    "ejs": "latest",
+    "aws-sdk": "latest",
+    "body-parser": "latest"
   }
 }

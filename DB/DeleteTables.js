@@ -2,134 +2,71 @@ import { pool } from './Configuration.js';
 
 // Function to drop the users table
 export const dropTableUsers = () => {
-    return new Promise((resolve, reject) => {
-        pool.query(`DROP TABLE IF EXISTS users;`, (error, results) => {
-            if (error) return reject(error);
-            resolve(results);
-        });
-    });
-};
-
-// Function to drop the user_tokens table
-export const dropTableUserTokens = () => {
-    return new Promise((resolve, reject) => {
-        pool.query(`DROP TABLE IF EXISTS user_tokens;`, (error, results) => {
-            if (error) return reject(error);
-            resolve(results);
-        });
-    });
+    return pool.query(`DROP TABLE IF EXISTS users;`);
 };
 
 // Function to drop the user_data table
 export const dropTableUserData = () => {
-    return new Promise((resolve, reject) => {
-        pool.query(`DROP TABLE IF EXISTS user_data;`, (error, results) => {
-            if (error) return reject(error);
-            resolve(results);
-        });
-    });
+    return pool.query(`DROP TABLE IF EXISTS user_data;`);
 };
 
 // Function to drop the subjects table
 export const dropTableSubjects = () => {
-    return new Promise((resolve, reject) => {
-        pool.query(`DROP TABLE IF EXISTS subjects;`, (error, results) => {
-            if (error) return reject(error);
-            resolve(results);
-        });
-    });
+    return pool.query(`DROP TABLE IF EXISTS subjects;`);
 };
 
 // Function to drop the lab_batches table
 export const dropTableLabBatches = () => {
-    return new Promise((resolve, reject) => {
-        pool.query(`DROP TABLE IF EXISTS lab_batches;`, (error, results) => {
-            if (error) return reject(error);
-            resolve(results);
-        });
-    });
+    return pool.query(`DROP TABLE IF EXISTS lab_batches;`);
 };
 
 // Function to drop the lecture_batches table
 export const dropTableLectureBatches = () => {
-    return new Promise((resolve, reject) => {
-        pool.query(`DROP TABLE IF EXISTS lecture_batches;`, (error, results) => {
-            if (error) return reject(error);
-            resolve(results);
-        });
-    });
+    return pool.query(`DROP TABLE IF EXISTS lecture_batches;`);
 };
 
 // Function to drop the students_subjects table
 export const dropTableStudentsSubjects = () => {
-    return new Promise((resolve, reject) => {
-        pool.query(`DROP TABLE IF EXISTS students_subjects;`, (error, results) => {
-            if (error) return reject(error);
-            resolve(results);
-        });
-    });
+    return pool.query(`DROP TABLE IF EXISTS students_subjects;`);
 };
 
 // Function to drop the timetable table
 export const dropTableTimetable = () => {
-    return new Promise((resolve, reject) => {
-        pool.query(`DROP TABLE IF EXISTS timetable;`, (error, results) => {
-            if (error) return reject(error);
-            resolve(results);
-        });
-    });
+    return pool.query(`DROP TABLE IF EXISTS timetable;`);
 };
 
 // Function to drop the timetable_exceptions table
 export const dropTableTimetableExceptions = () => {
-    return new Promise((resolve, reject) => {
-        pool.query(`DROP TABLE IF EXISTS timetable_exceptions;`, (error, results) => {
-            if (error) return reject(error);
-            resolve(results);
-        });
-    });
+    return pool.query(`DROP TABLE IF EXISTS timetable_exceptions;`);
 };
 
 // Function to drop the special_timetable table
 export const dropTableSpecialTimetable = () => {
-    return new Promise((resolve, reject) => {
-        pool.query(`DROP TABLE IF EXISTS special_timetable;`, (error, results) => {
-            if (error) return reject(error);
-            resolve(results);
-        });
-    });
+    return pool.query(`DROP TABLE IF EXISTS special_timetable;`);
 };
 
 // Function to drop the holidays table
 export const dropTableHolidays = () => {
-    return new Promise((resolve, reject) => {
-        pool.query(`DROP TABLE IF EXISTS holidays;`, (error, results) => {
-            if (error) return reject(error);
-            resolve(results);
-        });
-    });
+    return pool.query(`DROP TABLE IF EXISTS holidays;`);
 };
 
 // Function to drop all tables
 export async function dropAllTables() {
     try {
-        await dropTableTimetableExceptions();
-        await dropTableSpecialTimetable();
+        // await dropTableTimetableExceptions();
+        // await dropTableSpecialTimetable();
         await dropTableTimetable();
         await dropTableStudentsSubjects();
         await dropTableLabBatches();
         await dropTableLectureBatches();
         await dropTableSubjects();
-        await dropTableUserTokens();
+        // await dropTableUserTokens();
         await dropTableUserData();
         await dropTableUsers();
-        await dropTableHolidays();
+        // await dropTableHolidays();
 
         console.log('All tables dropped successfully.');
     } catch (error) {
         console.error('Error dropping tables: ', error);
     }
 }
-
-// Call the function to drop all tables
-// dropAllTables();

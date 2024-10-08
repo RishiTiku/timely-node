@@ -1,25 +1,24 @@
-GET http://localhost:3000/
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpYXQiOjE3MjgzMzE2MDgsImV4cCI6MTcyODMzNTIwOCwiYXVkIjoiNDciLCJpc3MiOiJub2RlLXRpbWVseSJ9.ii5fBKJDPvsKMe0UdhyaVfG6orAx3ytDckwBHTKraxk
+GET http://localhost:3000/api/getWeekly
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpYXQiOjE3MjgzODc0MTMsImV4cCI6MTcyODM5MTAxMywiYXVkIjoiMSIsImlzcyI6Im5vZGUtdGltZWx5In0.uVNnU48SYgr9Et-odLp-OUNAPxXirlTMALj1PrZ5b0c
 
 ### 404
-GET http://13.60.180.116/hello_world
+GET http://localhost:3000/hello_world
 
 ### Login Route
-POST http://13.60.180.116/auth/login
+POST http://localhost:3000/auth/login
 Content-Type: application/json
 
 {
-    "email" : "1223bhw32wf2sf2@gmail.com",
-    "password": "1232"
+    "email" : "rishi.tiku@spit.ac.in",
+    "password": "1234"
 }
-
 ### Register Route
 POST http://localhost:3000/auth/register
 Content-Type: application/json
 
 {
-    "email" : "1223bhw32wf2sf2@gmail.com",
-    "password": "1232"
+    "email" : "arsh.raina@spit.ac.in",
+    "password": "1234"
 }
 
 ### Refresh Token Route
