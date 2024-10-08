@@ -11,7 +11,7 @@ const authFunctions = {
             const user = await registerUser(result.email, result.password);
             const accessToken = await signAccessToken(user.id);
             const refreshToken = await signRefreshToken(user.id);
-            res.status(201).send({ accessToken, refreshToken });
+            res.status(201).send({data:{ accessToken, refreshToken }});
         } catch (error) {
             if(error.isJoi === true) error.status = 422;
             next(error)
@@ -26,7 +26,7 @@ const authFunctions = {
             const accessToken = await signAccessToken(userID);
             const refreshToken = await signRefreshToken(userID);
     
-            return res.status(200).json({ accessToken, refreshToken });
+            return res.status(200).json({data:{ accessToken, refreshToken }});
         } catch (error) {
             if(error.isJoi === true) return next(createHttpError.BadRequest("Invalid Username or Password."));
             next(error)
@@ -39,7 +39,7 @@ const authFunctions = {
             const userID = await verifyRefreshToken(refreshToken);
             const accessToken = await signAccessToken(userID);
             const newRefreshToken = await signRefreshToken(userID);
-            res.send({ "accessToken": accessToken, "refreshToken":  newRefreshToken });
+            res.send({data:{ "accessToken": accessToken, "refreshToken":  newRefreshToken }});
             
         } catch (error) {
             next(error);
@@ -53,7 +53,7 @@ const authFunctions = {
             const result = await client.del(String(userID));
     
             if (result === 1) {
-                res.sendStatus(204); // No content
+                res.status(204).send({data:{}, message: "Logged out User Successfully!"}); // No content
             } else {
                 throw createHttpError.InternalServerError();
             }

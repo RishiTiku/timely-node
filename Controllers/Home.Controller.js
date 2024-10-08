@@ -4,16 +4,21 @@ import { closePool } from "../DB/Configuration.js";
 const homeFunctions = {
     homeGreeting: async (req, res, next) => {
         // console.log(req.headers['authorization']);
-        res.send('Hello from express.');
+        res.send({
+            data: {},
+            message: 'Hello From Timely!'
+        });
     },
 
     errorHandler: (err, req, res, next) => {
         res.status(err.status || 500)
         res.send({
-            error: {
-                status: err.status || 500,
-                message: err.message
-            }
+            data: {
+                    error: {
+                    status: err.status || 500
+                    }
+                },
+            message: err.message
         })
     },
 
