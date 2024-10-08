@@ -7,10 +7,15 @@ import {
     insertTimetableEntries
 } from "./InsertData.js";
 
+import { registerUser } from "./UserOperations.js";
+
 
 // Function to add sample data to the database
 export async function addSampleData() {
     try {
+        await registerUser('rishi.tiku@spit.ac.in', '1234');
+        await registerUser('arsh@spit.ac.in', '1234');
+
         // Insert Students
         await insertUserData([
             [1, 2021700067, 'Rishi Tiku', 7, 4],

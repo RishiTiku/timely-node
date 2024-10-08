@@ -7,10 +7,11 @@ import dotenv from 'dotenv/config';
 // Create a connection pool
 export const pool = createPool({
     connectionLimit: 10, // Limit to 10 concurrent connections
-    host: '127.0.0.1',
-    user: 'timekeeper1',
-    password: '',
-    database: process.env.DB_NAME
+    host: process.env.RDS_HOSTNAME || '127.0.0.1',
+    port: process.env.RDS_PORT || '3306',
+    user: process.env.RDS_USERNAME || 'timekeeper1',
+    password: process.env.RDS_PASSWORD || '',
+    database: process.env.RDS_DB_NAME || process.env.DB_NAME
 });
 
 // Function to close the pool
