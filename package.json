@@ -1,0 +1,32 @@
+{
+  "name": "timelynodebackend",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "start": "npx kill-port 3000 -y && nodemon index.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "aws-sdk": "latest",
+    "bcrypt": "^5.1.1",
+    "body-parser": "latest",
+    "dotenv": "^16.4.5",
+    "ejs": "latest",
+    "express": "^4.21.0",
+    "http-errors": "^2.0.0",
+    "joi": "^17.13.3",
+    "jsonwebtoken": "^9.0.2",
+    "kill-port": "latest",
+    "morgan": "^1.10.0",
+    "mysql2": "^3.11.3",
+    "nodemon": "^3.1.7",
+    "pg": "^8.13.1",
+    "pg-hstore": "^2.3.4",
+    "redis": "^4.7.0",
+    "sequelize": "^6.37.5"
+  }
+}
