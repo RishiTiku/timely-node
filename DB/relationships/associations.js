@@ -14,7 +14,7 @@ LectureBatches.belongsTo(Subjects, { foreignKey: 'SubjectID', onDelete: 'CASCADE
 StudentsSubjects.belongsTo(Subjects, { foreignKey: 'SubjectID', onDelete: 'CASCADE' });
 
 // Additional Relationships
-StudentSubject.belongsTo(Users, { foreignKey: 'id', onDelete: 'CASCADE' });
+StudentsSubjects.belongsTo(Users, { foreignKey: 'id', onDelete: 'CASCADE' });
 StudentsSubjects.belongsTo(LabBatches, { foreignKey: 'LabBatchID' });
 StudentsSubjects.belongsTo(LectureBatches, { foreignKey: 'LectureBatchID' });
 Timetable.belongsTo(LabBatches, { foreignKey: 'LabBatchID' });
