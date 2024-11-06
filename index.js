@@ -10,7 +10,7 @@ import { dropAllTables } from './DB/DeleteTables.js'
 import { createTables } from './DB/CreateTables.js';
 import { describeAllTables } from './DB/DescribeTables.js';
 import { addSampleData } from './DB/InsertSampleData.js';
-import { getWeeklyTimetable, getDailyTimetable } from './DB/ReadQueries.js';
+import { getWeeklyTimetable } from './DB/ReadQueries.js';
 
 const app = express();
 app.use(morgan('dev'));
@@ -38,10 +38,10 @@ async function interact(){
     try{
         await dropAllTables();
         await createTables();
-        describeAllTables();
+        // describeAllTables();
         await addSampleData();
-        // const result = await getWeeklyTimetable('2');
-        // console.log(result)
+        const result = await getWeeklyTimetable('1');
+        console.log(result)
     }
     catch (error) {
         console.error('Error: ', error);
@@ -51,6 +51,17 @@ async function interact(){
     // }
 }
 
-// interact();
+interact();
+
+// (async () => {
+//     try {
+//         await sequelize.sync({ force: true }); // Using force will drop tables if they exist
+//         console.log("Database synced successfully.");
+//     } catch (error) {
+//         console.error("Error syncing database:", error);
+//     }
+//   })();
+
+
 
 process.on('SIGINT', homeFunctions.onSigint);

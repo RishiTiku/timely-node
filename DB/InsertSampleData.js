@@ -1,10 +1,11 @@
 import { 
-    insertUserData,
+    insertStudentData,
     insertSubjects,
     insertLabBatches,
     insertLectureBatches,
     insertStudentsSubjects,
-    insertTimetableEntries
+    insertTimetableEntries,
+    insertFacultyData
 } from "./InsertData.js";
 
 import { registerUser } from "./UserOperations.js";
@@ -13,20 +14,31 @@ import { registerUser } from "./UserOperations.js";
 // Function to add sample data to the database
 export async function addSampleData() {
     try {
-        await registerUser('rishi.tiku@spit.ac.in', '1234');
-        await registerUser('arsh.raina@spit.ac.in', '1234');
+        await registerUser('rishi.tiku@spit.ac.in', '1234', 'S');
+        await registerUser('arsh.raina@spit.ac.in', '1234', 'S');
+        await registerUser('aparna_halbe@spit.ac.in', '1234', 'F');
+        await registerUser('pramod_bide@spit.ac.in', '1234', 'F');
+        await registerUser('dd_ambavade@spit.ac.in', '1234', 'F');
+        await registerUser('deepak_karia@spit.ac.in', '1234', 'F');
 
         // Insert Students
-        await insertUserData([
-            [1, 2021700067, 'Rishi Tiku', 7, 4],
-            [2, 2021600053, 'Arsh Raina', 7, 3],
+        await insertStudentData([
+            [1, 2021700067, 'Rishi Tiku', 7, 4, 2025],
+            [2, 2021600053, 'Arsh Raina', 7, 3, 2025],
+        ]);
+
+        await insertFacultyData([
+            [3, 'AH', 'Aparna Halbe', '6th-flr - StaffRoom'],
+            [4, 'PB', 'Pramod Bide', null],
+            [5, 'DDA', 'Dayanand Ambavade', '410-C'],
+            [6, 'DCK', 'Deepak Karia', '302' ]
         ]);
 
         // Insert Subjects
         await insertSubjects([
-            [1, 'BDA'], 
-            [2, 'NLP'],
-            [3, 'CA'],
+            ['BDA'], 
+            ['NLP'],
+            ['CA'],
         ]);
 
         // Insert Batches
@@ -44,20 +56,21 @@ export async function addSampleData() {
 
         //Insert StudentSubject Entries
         await insertStudentsSubjects([
-                [2021700067, 1, 0, 4],
-                [2021700067, 3, 0, 1],
-                [2021600053, 2, 0, 1],
-                [2021600053, 3, 0, 1],
+                [1, 1, 0, 4],
+                [1, 3, 0, 1],
+                [2, 2, 0, 1],
+                [2, 3, 0, 1],
             ]
         )
 
         // Insert Timetable Entries
         await insertTimetableEntries([
-            ['10:30:00', '12:30:00', 'Tuesday',   1, null, 3,    '404'    ], // BDA - C
-            ['13:30:00', '15:30:00', 'Thursday',  1, null, 4,    '404'    ], // BDA - D
-            ['13:30:00', '15:30:00', 'Wednesday', 3, 0,    null, '405'    ], // CA - Common
-            ['15:30:00', '17:30:00', 'Tuesday',   3, null, 1,    '406 - A'], // CA - Batch O
-            ['13:30:00', '15:30:00', 'Tuesday',   2, 0,    null, '405'    ]  // NLP - Common
+            ['10:30:00', '12:30:00', 'Tuesday',   1, null, 3,    '404'    , 3], // BDA - C
+            ['13:30:00', '15:30:00', 'Thursday',  1, null, 4,    '404'    , 3], // BDA - D
+            ['13:30:00', '15:30:00', 'Wednesday', 3, 0,    null, '405'    , 5], // CA - Common
+            ['15:30:00', '17:30:00', 'Tuesday',   3, null, 1,    '406 - A', 5], // CA - Batch O
+            ['13:30:00', '15:30:00', 'Tuesday',   2, 0,    null, '405'    , 4], // NLP - Common
+            ['13:30:00', '15:30:00', 'Tuesday',   1, 0,    null, '407'    , 3]  // BDA - Common 
         ]);
 
         console.log('Sample data inserted successfully.');

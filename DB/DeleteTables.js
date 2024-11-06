@@ -6,8 +6,12 @@ export const dropTableUsers = () => {
 };
 
 // Function to drop the user_data table
-export const dropTableUserData = () => {
-    return pool.query(`DROP TABLE IF EXISTS user_data;`);
+export const dropTableStudentData = () => {
+    return pool.query(`DROP TABLE IF EXISTS student_data;`);
+};
+
+export const dropTableFacultyData = () => {
+    return pool.query(`DROP TABLE IF EXISTS faculty_data;`);
 };
 
 // Function to drop the subjects table
@@ -35,38 +39,156 @@ export const dropTableTimetable = () => {
     return pool.query(`DROP TABLE IF EXISTS timetable;`);
 };
 
-// Function to drop the timetable_exceptions table
-export const dropTableTimetableExceptions = () => {
-    return pool.query(`DROP TABLE IF EXISTS timetable_exceptions;`);
+export const dropTableStatus = () => {
+    return pool.query(`DROP TABLE IF EXISTS status;`);
 };
 
-// Function to drop the special_timetable table
-export const dropTableSpecialTimetable = () => {
-    return pool.query(`DROP TABLE IF EXISTS special_timetable;`);
-};
 
-// Function to drop the holidays table
-export const dropTableHolidays = () => {
-    return pool.query(`DROP TABLE IF EXISTS holidays;`);
-};
 
 // Function to drop all tables
 export async function dropAllTables() {
     try {
-        // await dropTableTimetableExceptions();
-        // await dropTableSpecialTimetable();
+        
         await dropTableTimetable();
         await dropTableStudentsSubjects();
         await dropTableLabBatches();
         await dropTableLectureBatches();
         await dropTableSubjects();
-        // await dropTableUserTokens();
-        await dropTableUserData();
+        await dropTableStudentData();
         await dropTableUsers();
-        // await dropTableHolidays();
+        await dropTableFacultyData();
+        await dropTableStatus();
 
         console.log('All tables dropped successfully.');
     } catch (error) {
         console.error('Error dropping tables: ', error);
     }
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+// // Function to drop the timetable_exceptions table
+// export const dropTableTimetableExceptions = () => {
+//     return pool.query(`DROP TABLE IF EXISTS timetable_exceptions;`);
+// };
+
+// // Function to drop the special_timetable table
+// export const dropTableSpecialTimetable = () => {
+//     return pool.query(`DROP TABLE IF EXISTS special_timetable;`);
+// };
+
+// // Function to drop the holidays table
+// export const dropTableHolidays = () => {
+//     return pool.query(`DROP TABLE IF EXISTS holidays;`);
+// };

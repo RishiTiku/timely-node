@@ -4,9 +4,8 @@ import createHttpError from 'http-errors';
 import { insertUsers } from './InsertData.js';
 
 
-export const checkEmailQuery = 'SELECT * FROM users WHERE email = ?';
-
 export const findUser = async (email) => {
+    const checkEmailQuery = 'SELECT * FROM users WHERE email = ?';
     const [rows] = await pool.query(checkEmailQuery, [email]);
     if (rows.length > 0) {
         return rows[0];
@@ -16,7 +15,7 @@ export const findUser = async (email) => {
 
 // export const insertUserQuery = 'INSERT INTO users (email, password) VALUES (?, ?)';
 
-export const registerUser = async (email, password) => {
+export const registerUser = async (email, password, user_type) => {
     try {
         // // Check if email already exists
         const userExists = await findUser(email);
@@ -28,7 +27,7 @@ export const registerUser = async (email, password) => {
 
         const hashedPassword = await bcrypt.hash(password, salt);
         console.log(hashedPassword);
-        await insertUsers(email, hashedPassword);
+        await insertUsers(email, hashedPassword, user_type);
         const savedUser = await findUser(email);
         console.log('saved user', savedUser);
         // Return the saved user tuple
