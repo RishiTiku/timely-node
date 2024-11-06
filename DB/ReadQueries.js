@@ -34,7 +34,7 @@ export const getWeeklyTimetable = async (userID) => {
     export const getUsername = async (userID) => {
         const query = 
         `
-            SELECT name FROM user_data WHERE id = ? LIMIT 1;
+            SELECT name FROM student_data WHERE id = ? LIMIT 1;
         
         `;
     

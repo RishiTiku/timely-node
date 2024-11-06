@@ -1,12 +1,15 @@
-import { getUsername, getWeeklyProcedure, getWeeklyTimetable } from "../DB/ReadQueries.js";
+import { getWeeklyProcedure} from "../DB/ReadQueries.js";
 
 const apiFunctions = {
     getWeekly: async(req, res, next) => {
-        const payload = req.payload;
-        const userID = payload.aud;
-        const name = await getUsername(userID);
-        const result = await getWeeklyProcedure(userID);
-        res.status(200).send({data:{/*"user_id": userID, "username" : name[0].name, */"timetables": result}})
+        try {
+            const payload = req.payload;
+            const userID = payload.aud;
+            const result = await getWeeklyProcedure(userID);
+            res.status(200).send({data:{"timetables": result}})
+        } catch(err) {
+            next(err)
+        }
     },
     searchPerson: async(req, res, next) => {
         const personUid = req.params.uid;
