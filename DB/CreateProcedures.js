@@ -17,9 +17,6 @@ export const createProcedureGetTimetableForUser = async () => {
                      lcb.batch_name AS lec_batch_name, lab.batch_name AS lab_batch_name, 
                      t.room_number, fd.faculty_code
               FROM timetable t
-              INNER JOIN students_subjects ss 
-                  ON t.subject_id = ss.subject_id 
-                  AND (t.lecture_batch_id = ss.lecture_batch_id OR t.lab_batch_id = ss.lab_batch_id)
               INNER JOIN subjects s 
                   ON t.subject_id = s.subject_id
               LEFT JOIN lecture_batches lcb 
