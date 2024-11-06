@@ -7,8 +7,6 @@ const router = express.Router();
 
 router.get('/getWeekly', apiFunctions.getWeekly);
 
-// router.get('/getDaily', apiFunctions.getDaily);
-
 router.get('/searchPerson/:uid', apiFunctions.searchPerson);
 
 

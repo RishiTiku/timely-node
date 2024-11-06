@@ -113,6 +113,8 @@ export const createTableStatus = () => {
   );
 }
 
+
+
 // Adjusted createTables function to handle dependencies properly
 export async function createTables() {
   try {

@@ -10,7 +10,9 @@ import { dropAllTables } from './DB/DeleteTables.js'
 import { createTables } from './DB/CreateTables.js';
 import { describeAllTables } from './DB/DescribeTables.js';
 import { addSampleData } from './DB/InsertSampleData.js';
-import { getWeeklyTimetable } from './DB/ReadQueries.js';
+import { getWeeklyProcedure, getWeeklyTimetable } from './DB/ReadQueries.js';
+import { createProcedures } from './DB/CreateProcedures.js';
+import { dropAllProcedures } from './DB/DeleteProcedures.js';
 
 const app = express();
 app.use(morgan('dev'));
@@ -37,10 +39,14 @@ app.use(homeFunctions.errorHandler)
 async function interact(){
     try{
         await dropAllTables();
+        await dropAllProcedures();
         await createTables();
         // describeAllTables();
         await addSampleData();
-        const result = await getWeeklyTimetable('1');
+        await createProcedures();
+        // const result1 = await getWeeklyTimetable('2');
+        // console.log(result1)
+        const result = await getWeeklyProcedure('2');
         console.log(result)
     }
     catch (error) {
@@ -51,7 +57,7 @@ async function interact(){
     // }
 }
 
-interact();
+// interact();
 
 // (async () => {
 //     try {

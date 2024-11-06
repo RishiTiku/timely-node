@@ -47,6 +47,24 @@ export const getWeeklyTimetable = async (userID) => {
         }
     };
 
+    // gives result for both students and faculty alike
+    export const getWeeklyProcedure = async (userID) => {
+        const query = 
+        `
+            CALL GetTimetableForUser(?);
+        `;
+    
+        try {
+            const [results] = await pool.query(query, [userID]);
+            return results[0];
+        } catch (error) {
+            console.error("Error fetching weekly timetable: ", error);
+            throw error;
+        }
+    };
+    
+    
+
 
 
 
