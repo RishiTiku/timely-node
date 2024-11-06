@@ -8,9 +8,11 @@ const authFunctions = {
     register: async (req, res, next) =>{
         try {
             const result = await authSchema.validateAsync(req.body);
-            const user = await registerUser(result.email, result.password);
-            const accessToken = await signAccessToken(user.id);
-            const refreshToken = await signRefreshToken(user.id);
+            console.log(req.body);
+            const user = await registerUser(result.email, result.password, result.user_type);
+            console.log(user);
+            const accessToken = await signAccessToken(user.user_id);
+            const refreshToken = await signRefreshToken(user.user_id);
             res.status(201).send({data:{ accessToken, refreshToken }});
         } catch (error) {
             if(error.isJoi === true) error.status = 422;

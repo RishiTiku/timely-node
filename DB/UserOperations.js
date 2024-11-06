@@ -49,7 +49,7 @@ export const isValidPassword = async (email, plainPassword) => {
 
         // Compare password
         const isValid = await bcrypt.compare(plainPassword, user.password);
-        const userID = user.id
+        const userID = user.user_id
         return {isValid, userID};
     } catch (error) {
         console.error('Error during password validation:', error);

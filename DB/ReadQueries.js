@@ -3,7 +3,7 @@ import { pool } from './Configuration.js';
 export const getWeeklyTimetable = async (userID) => {
         const query = 
         `
-            SELECT t.timetable_id, t.start_time, t.end_time, t.day, s.subject_name, lcb.batch_name as lec_batch_name, lab.batch_name as lab_batch_name, t.room_number, fd.faculty_code
+            SELECT t.start_time, t.end_time, t.day, s.subject_name, lcb.batch_name as lec_batch_name, lab.batch_name as lab_batch_name, t.room_number, fd.faculty_code
             FROM
                 timetable t 
                 INNER JOIN students_subjects ss 
