@@ -9,5 +9,7 @@ router.get('/getWeekly', apiFunctions.getWeekly);
 
 router.get('/searchPerson/:uid', apiFunctions.searchPerson);
 
+// announcements
+
 
 export default router;
